@@ -1,0 +1,33 @@
+#map {
+  display: block;
+  height: 500px;
+  width: 100%;
+}
+Header {
+  background-image: url('img/collage.jpg');
+  background-size: cover;
+  height: 600px;
+}
+Header .overlay {
+  background-color: rgba(35, 133, 161,0.75);
+  height: 100%;
+  padding-top: 220px;
+}
+Header .title {
+  color: white;
+  font-size: 4em;
+}
+Header .subtitle {
+  color: white;
+  font-size; 3em;
+}
+Footer {
+  height: 150px;
+}
+Footer .overlay {
+  font-family: 'Lato', sans-serif;
+  background-color: rgba(35, 133, 161,0.75);
+  height: inherit;
+  color: white;
+  padding-top: 50px;
+}
