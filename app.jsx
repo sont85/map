@@ -26,14 +26,18 @@
 
   var App = React.createClass({
     getInitialState: function() {
+      var favorites = JSON.parse(localStorage.getItem('coordinates'));
       return {
-  			favorites: [],
-  			currentAddress: 'Paris, France',
+  			favorites: favorites,
+  			currentAddress: favorites[0].address,
   			mapCoordinates: {
-  				lat: 48.856614,
-  				lng: 2.3522219
+  				lat: favorites[0].H ,
+  				lng: favorites[0].L
   			}
   		};
+    },
+    ComponentWillMount: function() {
+
     },
     searchForAddress: function(address) {
       var self = this;
@@ -43,8 +47,10 @@
           console.log(results);
           if (status != 'OK') return;
           var latlng =results[0].geometry.location;
+          latlng.address = results[0].formatted_address;
+          self.saveLocation(latlng);
           self.setState({
-            currentAddress: results[0].formatted_address,
+            currentAddress: latlng.address,
             mapCoordinates: {
               lat: latlng.lat(),
               lng: latlng.lng()
@@ -52,6 +58,16 @@
           }, self.refs.map.mapping);
         }
       });
+    },
+    saveLocation: function(latlng) {
+      var storage = localStorage.getItem('coordinates');
+      if (storage) {
+        var coordinates = JSON.parse(storage);
+        coordinates.unshift(latlng);
+        localStorage.setItem('coordinates', JSON.stringify(coordinates));
+      } else {
+        localStorage.setItem('coordinates', JSON.stringify([latlng]));
+      }
     },
     render: function() {
       return <div><Header />
@@ -105,7 +121,7 @@
       return <div>
         <form onSubmit={this.handleSubmit}>
           <input onChange={this.handleChange} placeholder='city, country'/>
-          <button type='submit'></button>
+          <button className='btn btn-default' type='submit'>Look Up</button>
         </form>
       </div>;
     }
