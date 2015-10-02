@@ -15,53 +15,59 @@
   var Footer = React.createClass({
     render: function() {
       return <footer>
-        <div className='overlay'>
-          <div className='container'>
-            <h4 className='text-center title'>&copy; 2015 Luckycode.org | by Son Truong</h4>
+          <div className='overlay'>
+            <div className='container'>
+              <h4 className='text-center title'>&copy; 2015 Luckycode.org | by Son Truong</h4>
+            </div>
           </div>
-        </div>
-      </footer>;
+        </footer>;
     }
   });
 
   var App = React.createClass({
     getInitialState: function() {
       return {
-  			favorites: [],
-  			currentAddress: 'Paris, France',
-  			mapCoordinates: {
-  				lat: 48.856614,
-  				lng: 2.3522219
-  			}
-  		};
+        favorites: [],
+        currentAddress: 'Paris, France',
+        mapCoordinates: {
+          lat: 48.856614,
+          lng: 2.3522219
+        }
+      };
     },
     searchForAddress: function(address) {
-      var self = this;
       GMaps.geocode({
         address: address,
-        callback: function(results, status) {
+        callback: (function(results, status) {
           console.log(results);
-          if (status != 'OK') return;
-          var latlng =results[0].geometry.location;
-          self.setState({
+          if (status != 'OK')
+            return;
+          var latlng = results[0].geometry.location;
+          this.setState({
             currentAddress: results[0].formatted_address,
             mapCoordinates: {
               lat: latlng.lat(),
               lng: latlng.lng()
             }
-          }, self.refs.map.mapping);
-        }
+          }, this.refs.map.mapping);
+        }).bind(this)
       });
     },
     render: function() {
-      return <div><Header />
+      return <div><Header/>
           <section>
             <div className='container'>
-              <Search onSearch={this.searchForAddress}/>
-              <Map lat={this.state.mapCoordinates.lat} lng={this.state.mapCoordinates.lng} ref='map' />
+              <div className='row'>
+                <div className='col-sm-6'>
+                  <Search onSearch={this.searchForAddress}/>
+                </div>
+                <div className='col-sm-6'>
+                  <Map lat={this.state.mapCoordinates.lat} lng={this.state.mapCoordinates.lng} ref='map'/>
+                </div>
+              </div>
             </div>
           </section>
-          <Footer />
+          <Footer/>
         </div>;
     }
   });
@@ -81,8 +87,7 @@
       });
     },
     render: function() {
-      return <div id='map'>
-        </div>;
+      return <div id='map'></div>;
     }
   });
 
@@ -99,17 +104,33 @@
     },
     handleSubmit: function(e) {
       e.preventDefault();
-      this.props.onSearch(this.state.text);
+      this.props
+        .onSearch(this.state.text);
     },
     render: function() {
-      return <div>
-        <form onSubmit={this.handleSubmit}>
-          <input onChange={this.handleChange} placeholder='city, country'/>
-          <button type='submit'></button>
-        </form>
-      </div>;
+      return <div id='dashboard'>
+          <form className='input-group' onSubmit={this.handleSubmit}>
+            <input className='form-control' onChange={this.handleChange} placeholder='city, country'/>
+            <span className='input-group-btn'>
+              <button className='btn btn-default' type='submit'>Look Up</button>
+            </span>
+          </form>
+        </div>;
     }
   });
+  var Locations = React.createClass({
+    render: function() {
+      return <div>
+        <ul>{this.props.data.map(function(item){
+            return <li>
+              <h5>{item.address}</h5>
+              <h5>{item}</h5>
+            </li>
+          })}
+        </ul>
+      </div>
+    }
+  })
 
   React.render(<App/>, document.getElementById('root'));
 })();
