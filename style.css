@@ -1,8 +1,5 @@
-#map {
-  display: block;
-  height: 500px;
-  width: 100%;
-}
+@import url(https://fonts.googleapis.com/css?family=Sigmar+One|Lato);
+
 Header {
   background-image: url('img/collage.jpg');
   background-size: cover;
@@ -20,6 +17,14 @@ Header .title {
 Header .subtitle {
   color: white;
   font-size; 3em;
+}
+#dashboard {
+  padding: 20px;
+}
+#map {
+  display: block;
+  height: 400px;
+  width: 100%;
 }
 Footer {
   height: 150px;
