@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Sigmar+One|Lato);
 
 Header {
-  background-image: url('img/collage.jpg');
+  /*background-image: url('img/collage.jpg');*/
   background-size: cover;
   height: 600px;
 }

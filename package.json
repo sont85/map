@@ -1,0 +1,31 @@
+{
+  "name": "map",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify -v -d -t [ reactify --es6 ] app.jsx -o compiled.js",
+    "build": "browserify -t [ reactify --es6 ] app.jsx | uglifyjs > compiled.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sont85/map.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sont85/map/issues"
+  },
+  "homepage": "https://github.com/sont85/map#readme",
+  "dependencies": {
+    "moment": "^2.10.6",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "browserify": "^11.2.0",
+    "reactify": "^1.1.1",
+    "uglify-js": "^2.4.24",
+    "watchify": "^3.4.0"
+  }
+}
