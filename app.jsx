@@ -142,11 +142,15 @@
     }
   });
   var Locations = React.createClass({
+    click: function(e) {
+      console.log(e);
+    },
     render: function() {
+      var self = this;
       var data = this.props.data || [];
       return <div>
-          <ul>{data.map(function (item) {
-            return <li>
+          <ul>{data.map( function (item) {
+            return <li onClick={self.click.bind(null, item)}>
                 <h5>{item.address}</h5>
                 <h5>Lat: {item.H}</h5>
                 <h5>Long: {item.L}</h5>
