@@ -5,8 +5,8 @@
   "main": "dist/all.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify -v -d -t [ reactify --es6 ] app.jsx -o compiled.js",
-    "build": "browserify -t [ reactify --es6 ] app.jsx | uglifyjs > compiled.js"
+    "watch": "watchify -v -d -t [ reactify --es6 ] app.jsx -o all.js",
+    "build": "browserify src/**/*.jsx -t babelify --outfile dist/all.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sont85/map#readme",
   "dependencies": {
+    "babelify": "^6.3.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
     "gulp-browserify": "^0.5.1",

@@ -6,13 +6,13 @@ var browserify = require('gulp-browserify');
 var uglify = require('gulp-uglify');
 
 gulp.task('build', function () {
-    return gulp.src('src/**/*.jsx')
+    return gulp.src('src/app.jsx')
         .pipe(sourcemaps.init())
         .pipe(babel())
-        .pipe(browserify({
-          insertGlobals : true,
-          debug : !gulp.env.production
-        }))
+        // .pipe(browserify({
+        //   insertGlobals : true,
+        //   debug : !gulp.env.production
+        // }))
         .pipe(concat('all.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('dist'));
