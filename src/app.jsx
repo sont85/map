@@ -1,5 +1,7 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 (function() {
-  'use strict';
   var Header = React.createClass({
     render: function() {
       return <header>
@@ -27,23 +29,12 @@
   var App = React.createClass({
     getInitialState: function() {
       var favorites = JSON.parse(localStorage.getItem('coordinates'));
-      if (favorites) {
-        return {
+      return favorites? {
           favorites: favorites,
           currentAddress: favorites[0].address,
           lat: favorites[0].H,
           lng: favorites[0].L
-
-        };
-      } else {
-        return {
-          favorites: [],
-          currentAddress: '',
-          lat: 37.7749295,
-          lng: -122.41941550000001
-        };
-      }
-
+        } : null;
     },
     searchForAddress: function(address) {
       GMaps.geocode({
@@ -59,7 +50,7 @@
             currentAddress: latlng.address,
             lat: latlng.lat(),
             lng: latlng.lng()
-          }, this.refs.map.mapping);
+          });
         }).bind(this)
       });
     },
@@ -85,7 +76,7 @@
                   <Locations data={this.state.favorites}/>
                 </div>
                 <div className='col-sm-6'>
-                  <Map lat={this.state.lat} lng={this.state.lng} ref='map'/>
+                  <Map lat={this.state.lat} lng={this.state.lng} />
                 </div>
               </div>
             </div>
@@ -96,10 +87,20 @@
   });
 
   var Map = React.createClass({
-    componentDidMount: function() {
-      this.mapping();
+    propTypes: {
+      lat: React.PropTypes.number,
+      lng: React.PropTypes.number
     },
-    mapping: function() {
+    getDefaultProps: function() {
+      return {
+          lat: 37.7749295,
+          lng: -122.41941550000001
+      };
+    },
+    componentDidMount: function() {
+      this.componentDidUpdate();
+    },
+    componentDidUpdate: function() {
       var map = new GMaps({
         el: '#map',
         lat: this.props.lat,
@@ -115,6 +116,9 @@
   });
 
   var Search = React.createClass({
+    propTypes: {
+      onSearch: React.PropTypes.func
+    },
     getInitialState: function() {
       return {
         text: null
@@ -142,6 +146,9 @@
     }
   });
   var Locations = React.createClass({
+    PropTypes: {
+      data: React.PropTypes.array
+    },
     getDefaultProps: function() {
       return { data : [] };
     },
