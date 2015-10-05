@@ -13,15 +13,18 @@ var Map = React.createClass({
     this.componentDidUpdate();
   },
   componentDidUpdate: function() {
-    var map = new GMaps({
-      el: '#map',
-      lat: this.props.lat,
-      lng: this.props.lng
-    }).addMarker({
-      lat: this.props.lat,
-      lng: this.props.lng
-    });
-  },
+  var location = new google.maps.LatLng(this.props.lat, this.props.lng);
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: location,
+    zoom: 13,
+    scrollwheel: false
+  });
+  var centerMarker = new google.maps.Marker({
+    position: location,
+    map: map,
+    title: 'target'
+  });
+},
   render: function() {
     return <div id='map'></div>;
   }
